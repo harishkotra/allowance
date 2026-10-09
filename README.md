@@ -2,10 +2,12 @@
 
 An agent that runs inside a **hard spend envelope** of tokens, dollars and wall-clock time.
 
-The envelope is not a suggestion in a system prompt. It is arithmetic in front of every
-model call, the counters live in SQLite rather than in a JS variable, and when the money
-runs out the agent gets a refusal it can show you — with the resource that ran out named,
-a partial result, and a cost report. A refusal is an outcome, not an exception.
+The envelope is not a suggestion in a system prompt. It is arithmetic in front of every model call, the counters live in SQLite rather than in a JS variable, and when the money runs out the agent gets a refusal it can show you — with the resource that ran out named, a partial result, and a cost report. A refusal is an outcome, not an exception.
+
+https://github.com/user-attachments/assets/3d13b81a-058d-407a-b36a-128118a3528f
+
+<img width="1664" height="954" alt="Screenshot at Oct 09 23-19-11" src="https://github.com/user-attachments/assets/27b0b1be-6cd3-457b-a204-0b4768bf9a65" />
+
 
 ```
 give it a task + an envelope  ->  watch the ledger fill step by step
@@ -73,10 +75,7 @@ before EVERY model call, in code:
                                    └─ otherwise            REFUSED { at: <resource> }
 ```
 
-Two gates enforce it. The **orchestration gate** runs inside a memoized Inngest step and
-decides control flow (execute / re-plan / ask / refuse). The **pre-call gate** is AgentKit's
-`onStart` hook, which can return `stop: true` and prevent the HTTP request from ever leaving
-the process. Both read the same stored envelope; neither keeps a running total in memory.
+Two gates enforce it. The **orchestration gate** runs inside a memoized Inngest step and decides control flow (execute / re-plan / ask / refuse). The **pre-call gate** is AgentKit's `onStart` hook, which can return `stop: true` and prevent the HTTP request from ever leaving the process. Both read the same stored envelope; neither keeps a running total in memory.
 
 ```
    server/src/
